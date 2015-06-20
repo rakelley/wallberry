@@ -6,7 +6,7 @@ var module = {},
     bgModule = {};
 
 
-timeModule.startTime = function(selector, delay) {
+timeModule.init = function(selector, delay) {
     selector = selector || ".info_bar-clock";
     delay = delay || 5;
     var timeTarget = document.querySelector(selector);
@@ -30,7 +30,7 @@ timeModule.convertDay = function(key) {
 };
 
 
-bgModule.startBackground = function(videoSelector, imageSelector, delay) {
+bgModule.init = function(videoSelector, imageSelector, delay) {
     videoSelector = videoSelector || ".bg-video";
     imageSelector = imageSelector || ".bg-image";
     delay = delay || 60;
@@ -132,8 +132,8 @@ bgModule.updateVideo = function(file, type) {
 
 
 module.init = function() {
-    timeModule.startTime();
-    bgModule.startBackground();
+    timeModule.init();
+    bgModule.init();
 };
 
 module.init();
