@@ -1,0 +1,53 @@
+
+/**
+ * Compass
+ * Dependencies from the Compass gem
+ */
+@import "compass/reset";
+
+
+/**
+ * Util
+ * Variables, mixins, and silent classes.  Util files should never generate
+ * CSS themselves.
+ */
+@import "util/config/_info";
+
+
+/**
+ * Base
+ * Resets and basic element styles.
+ */
+@import "base/elements/_body";
+
+
+/**
+ * Vendor
+ * 3rd-party SCSS/CSS.
+ */
+
+
+/**
+ * Layout
+ * Basic layout styles.
+ */
+@import "layout/_visibility";
+
+
+/**
+ * Component
+ * Reusable generic objects and non-page-specific widgets.
+ */
+
+
+/**
+ * Page
+ * Page-specific styles.
+ */
+@import "page/_index";
+
+
+/**
+ * Template
+ * Template styles.
+ */
