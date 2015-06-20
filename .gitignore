@@ -1,0 +1,11 @@
+#cache
+.sass-cache
+pids/
+logs/
+
+#testing/dev
+*.project
+*.sublime*
+
+#non-static assets
+public/backgrounds/
