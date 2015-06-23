@@ -17,7 +17,7 @@ class Wallberry < Sinatra::Base
       end
       target = File.join(target, '**', '*')
 
-      Dir.glob(target).sample
+      Dir.glob(target).sample.gsub("public#{File::SEPARATOR}", '')
     end
   end
 
