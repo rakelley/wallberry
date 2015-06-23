@@ -18,8 +18,8 @@ timeModule.init = function(selector, delay) {
 timeModule.updateTime = function(target) {
     var current = new Date(),
         day = timeModule.convertDay(current.getDay()),
-        hours = current.getHours(),
-        minutes = current.getMinutes();
+        hours = ('0'+current.getHours()).slice(-2),
+        minutes = ('0'+current.getMinutes()).slice(-2);
 
     target.innerHTML = day + ' ' + hours + ':' + minutes;
 };
@@ -43,6 +43,7 @@ bgModule.init = function(videoSelector, imageSelector, delay) {
 };
 
 bgModule.updateBackground = function() {
+    bgModule.videoTarget.pause();
     bgModule.getFile().then(
         function(response) { bgModule.processFile(response); },
         function() { return; }
@@ -123,6 +124,7 @@ bgModule.updateImage = function(file) {
 bgModule.updateVideo = function(file, type) {
     bgModule.videoTarget.children[0].setAttribute('src', file);
     bgModule.videoTarget.children[0].setAttribute('type', type);
+    bgModule.videoTarget.load();
     bgModule.videoTarget.classList.remove('hide');
     bgModule.videoTarget.classList.add('show');
     bgModule.videoTarget.play();
