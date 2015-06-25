@@ -4,7 +4,32 @@
 var module = {},
     timeModule = {},
     bgModule = {},
-    extModule = {};
+    extModule = {},
+    utilityModule = {};
+
+
+utilityModule.simpleAjax = function(url, type) {
+    return new Promise(function(resolve, reject) {
+        var req = new XMLHttpRequest();
+        req.open(type, url, true);
+
+        req.onload = function() {
+            if (req.status === 200 && req.responseText) {
+                resolve(JSON.parse(req.responseText));
+            } else {
+                reject();
+            }
+        }
+
+        req.send();
+    });
+};
+
+utilityModule.escapeStr = function(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+};
 
 
 timeModule.init = function(selector, delay) {
@@ -45,7 +70,7 @@ bgModule.init = function(videoSelector, imageSelector, delay) {
 
 bgModule.updateBackground = function() {
     bgModule.videoTarget.pause();
-    bgModule.getFile().then(
+    utilityModule.simpleAjax('next', 'get').then(
         function(response) { bgModule.processFile(response); },
         function() { return; }
     );
@@ -70,28 +95,6 @@ bgModule.processFile = function(responseObject) {
         bgModule.hideBackground();
         bgModule.updateVideo(file, type);
     }
-};
-
-bgModule.getFile = function() {
-    return new Promise(function(resolve, reject) {
-        var url = 'next',
-            requestType = 'get',
-            responseType = 'json';
-
-        var req = new XMLHttpRequest();
-        req.open(requestType, url, true);
-        req.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-
-        req.onload = function() {
-            if (req.status === 200 && req.responseText) {
-                resolve(JSON.parse(req.responseText));
-            } else {
-                reject();
-            }
-        }
-
-        req.send();
-    });
 };
 
 bgModule.getFileType = function(file) {
@@ -140,35 +143,14 @@ extModule.init = function(selector, delay) {
 
     extModule.updateWeather();
     window.setInterval(extModule.updateWeather, delay * 1000);
-}
+};
 
 extModule.updateWeather = function() {
-    extModule.getApi().then(
+    utilityModule.simpleAjax('exterior', 'get').then(
         function(response) { extModule.processApi(response); },
         function() { return; }
     );
-}
-
-extModule.getApi = function() {
-    return new Promise(function(resolve, reject) {
-        var url = 'exterior',
-            requestType = 'get',
-            responseType = 'json';
-
-        var req = new XMLHttpRequest();
-        req.open(requestType, url, true);
-
-        req.onload = function() {
-            if (req.status === 200 && req.responseText) {
-                resolve(JSON.parse(req.responseText));
-            } else {
-                reject();
-            }
-        }
-
-        req.send();
-    });
-}
+};
 
 extModule.processApi = function(responseObject) {
     if (!responseObject || typeof responseObject.main == undefined ||
@@ -177,11 +159,11 @@ extModule.processApi = function(responseObject) {
         return;
     } else {
         var temp = Math.round(responseObject.main.temp),
-            description = responseObject.weather[0].description;
+            description = utilityModule.escapeStr(responseObject.weather[0].description);
     }
 
     extModule.target.innerHTML = description + ' ' + temp;
-}
+};
 
 
 module.init = function() {
