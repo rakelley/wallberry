@@ -12,7 +12,7 @@ class Wallberry < Sinatra::Base
   helpers do
     def get_file(sub_dir=nil)
       target = File.join('public', 'backgrounds')
-      if (!sub_dir.nil?)
+      if (sub_dir)
         target = File.join(target, sub_dir)
       end
       target = File.join(target, '**', '*')
