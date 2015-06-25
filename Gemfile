@@ -3,10 +3,12 @@ source 'https://rubygems.org'
 #ruby-gemset=wallberry
 
 gem "compass"
+gem "curb"
 gem "haml"
 gem "json"
 gem "redcarpet"
 gem "sass"
 gem "sinatra"
+gem "sinatra-contrib"
 gem "sinatra-partial"
 gem "unicorn"

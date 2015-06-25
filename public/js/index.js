@@ -151,7 +151,7 @@ extModule.updateWeather = function() {
 
 extModule.getApi = function() {
     return new Promise(function(resolve, reject) {
-        var url = 'http://api.openweathermap.org/data/2.5/weather?zip=60503,us&units=imperial',
+        var url = 'exterior',
             requestType = 'get',
             responseType = 'json';
 
