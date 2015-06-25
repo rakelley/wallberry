@@ -3,7 +3,8 @@
 
 var module = {},
     timeModule = {},
-    bgModule = {};
+    bgModule = {},
+    extModule = {};
 
 
 timeModule.init = function(selector, delay) {
@@ -131,11 +132,62 @@ bgModule.updateVideo = function(file, type) {
 };
 
 
+extModule.init = function(selector, delay) {
+    selector = selector || '.info_bar-w_exterior';
+    delay = delay || 1000;
+
+    extModule.target = document.querySelector(selector);
+
+    extModule.updateWeather();
+    window.setInterval(extModule.updateWeather, delay * 1000);
+}
+
+extModule.updateWeather = function() {
+    extModule.getApi().then(
+        function(response) { extModule.processApi(response); },
+        function() { return; }
+    );
+}
+
+extModule.getApi = function() {
+    return new Promise(function(resolve, reject) {
+        var url = 'http://api.openweathermap.org/data/2.5/weather?zip=60503,us&units=imperial',
+            requestType = 'get',
+            responseType = 'json';
+
+        var req = new XMLHttpRequest();
+        req.open(requestType, url, true);
+
+        req.onload = function() {
+            if (req.status === 200 && req.responseText) {
+                resolve(JSON.parse(req.responseText));
+            } else {
+                reject();
+            }
+        }
+
+        req.send();
+    });
+}
+
+extModule.processApi = function(responseObject) {
+    if (!responseObject || typeof responseObject.main == undefined ||
+        !responseObject.main
+    ) {
+        return;
+    } else {
+        var temp = Math.round(responseObject.main.temp),
+            description = responseObject.weather[0].description;
+    }
+
+    extModule.target.innerHTML = description + ' ' + temp;
+}
 
 
 module.init = function() {
     timeModule.init();
     bgModule.init();
+    extModule.init();
 };
 
 module.init();
