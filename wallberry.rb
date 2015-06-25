@@ -12,25 +12,19 @@ class Wallberry < Sinatra::Base
   set :haml, :format => :html5, :ugly => true
   set :markdown, :layout_engine => :haml, :fenced_code_blocks => true
 
-  helpers do
-    def get_file(sub_dir=nil)
-      target = File.join('public', 'backgrounds')
-      if (sub_dir)
-        target = File.join(target, sub_dir)
-      end
-      target = File.join(target, '**', '*')
-
-      Dir.glob(target).sample.gsub("public#{File::SEPARATOR}", '')
-    end
-  end
-
   get '/' do
     haml :index
   end
 
   get '/next' do
     sub_dir = settings.backgrounds[:sub_dir] || nil
-    file = get_file(sub_dir)
+    target = File.join('public', 'backgrounds')
+    if (sub_dir)
+      target = File.join(target, sub_dir)
+    end
+    target = File.join(target, '**', '*')
+    file = Dir.glob(target).sample.gsub("public#{File::SEPARATOR}", '')
+
     content_type :json
     { 'file' => file }.to_json
   end
@@ -39,7 +33,13 @@ class Wallberry < Sinatra::Base
     id = settings.weather[:city]
     units = settings.weather[:units]
     url = "http://api.openweathermap.org/data/2.5/weather?id=#{id}&units=#{units}"
-    request = Curl.get(url)
-    request.body_str
+
+    content_type :json
+    begin
+      request = Curl.get(url)
+      request.body_str
+    rescue
+      {}.to_json
+    end
   end
 end
