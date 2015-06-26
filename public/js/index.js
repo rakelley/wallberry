@@ -5,6 +5,7 @@ var module = {},
     timeModule = {},
     bgModule = {},
     extModule = {},
+    intModule = {},
     utilityModule = {};
 
 
@@ -29,6 +30,16 @@ utilityModule.escapeStr = function(str) {
     var div = document.createElement('div');
     div.appendChild(document.createTextNode(str));
     return div.innerHTML;
+};
+
+utilityModule.hide = function(el) {
+    el.classList.remove('show');
+    el.classList.add('hide');
+};
+
+utilityModule.show = function(el) {
+    el.classList.remove('hide');
+    el.classList.add('show');
 };
 
 
@@ -89,10 +100,8 @@ bgModule.processFile = function(responseObject) {
     if (!type) {
         return;
     } else if (type === 'image') {
-        bgModule.hideBackground();
         bgModule.updateImage(file);
     } else {
-        bgModule.hideBackground();
         bgModule.updateVideo(file, type);
     }
 };
@@ -112,25 +121,18 @@ bgModule.getFileType = function(file) {
     }
 };
 
-bgModule.hideBackground = function() {
-    bgModule.imageTarget.classList.remove('show');
-    bgModule.imageTarget.classList.add('hide');
-    bgModule.videoTarget.classList.remove('show');
-    bgModule.videoTarget.classList.add('hide');
-};
-
 bgModule.updateImage = function(file) {
     bgModule.imageTarget.src = file;
-    bgModule.imageTarget.classList.remove('hide');
-    bgModule.imageTarget.classList.add('show');
+    utilityModule.hide(bgModule.videoTarget);
+    utilityModule.show(bgModule.imageTarget);
 };
 
 bgModule.updateVideo = function(file, type) {
     bgModule.videoTarget.children[0].setAttribute('src', file);
     bgModule.videoTarget.children[0].setAttribute('type', type);
     bgModule.videoTarget.load();
-    bgModule.videoTarget.classList.remove('hide');
-    bgModule.videoTarget.classList.add('show');
+    utilityModule.hide(bgModule.imageTarget);
+    utilityModule.show(bgModule.videoTarget);
     bgModule.videoTarget.play();
 };
 
@@ -165,11 +167,52 @@ extModule.processApi = function(responseObject) {
     extModule.target.innerHTML = description + ' ' + temp;
 };
 
+extModule.makeLarge = function() {
+    extModule.target.classList.add('info_bar-item-large');
+};
+
+extModule.makeSmall = function() {
+    extModule.target.classList.remove('info_bar-item-large');
+};
+
+
+intModule.init = function(selector, delay) {
+    selector = selector || '.info_bar-w_interior';
+    delay = delay || 300;
+
+    intModule.target = document.querySelector(selector);
+
+    intModule.updateTemperature();
+    window.setInterval(intModule.updateWeather, delay * 1000);
+};
+
+intModule.updateTemperature = function() {
+    utilityModule.simpleAjax('interior', 'get').then(
+        function(response) { intModule.processTemp(response); },
+        function() { return; }
+    );
+};
+
+intModule.processTemp = function(responseObject) {
+    if (!responseObject || typeof responseObject.temp == undefined ||
+        !responseObject.temp
+    ) {
+        extModule.makeLarge();
+        utilityModule.hide(intModule.target);
+    } else {
+        var temp = Math.round(responseObject.temp);
+        intModule.target.innerHTML = temp;
+        extModule.makeSmall();
+        utilityModule.show(intModule.target);
+    }
+};
+
 
 module.init = function() {
     timeModule.init();
     bgModule.init();
     extModule.init();
+    intModule.init();
 };
 
 module.init();

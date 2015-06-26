@@ -41,9 +41,25 @@
   align-items: center;
 }
 
-.info_bar-clock {
-  flex: 1;
+.info_bar-item-small {
+  font-size: $info_bar-font-small;
+  //no children, but need to make flex containers for vertical align hack
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.info_bar-item-large {
   font-size: $info_bar-font-large;
+  //no children, but need to make flex containers for vertical align hack
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.info_bar-clock {
+  @extend .info_bar-item-large;
+  flex: 1; 
 }
 
 .info_bar-weather {
@@ -54,13 +70,9 @@
 }
 
 %info_bar-weather-type {
+  @extend .info_bar-item-small;
   flex: 1;
-  font-size: $info_bar-font-small;
   text-align: right;
-  //no children, but need to make flex containers for vertical align hack
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .info_bar-w_interior {

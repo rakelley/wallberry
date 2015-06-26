@@ -1,5 +1,7 @@
-weather:
+exterior:
     city: 4902559
     units: imperial
 backgrounds:
     sub_dir:
+interior:
+    id:
