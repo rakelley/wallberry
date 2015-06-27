@@ -17,7 +17,7 @@ class Wallberry < Sinatra::Base
   helpers do
     def get_file
       target = File.join('public', 'backgrounds')
-      if (!empty?(settings.backgrounds[:filter]))
+      if (not_empty?(settings.backgrounds[:filter]))
         target = File.join(target, settings.backgrounds[:filter])
       end
       target = File.join(target, '**', '*.*')
@@ -38,7 +38,7 @@ class Wallberry < Sinatra::Base
     end
 
     def get_interior
-      if (!empty?(settings.interior[:id]))
+      if (not_empty?(settings.interior[:id]))
         path = File.join('', 'sys', 'bus', 'w1', 'devices',
                          settings.interior[:id], 'w1_slave')
         temp = File.read(path).split('t=').last
@@ -79,7 +79,8 @@ class Wallberry < Sinatra::Base
       File.write(@@configuration_file, config.to_yaml)
     end
 
-    def empty?(var)
+    #converts variable to nil if empty/false/nil but preserves 0
+    def not_empty?(var)
       if (var.to_s == '' || var == false)
         return nil
       else
@@ -104,8 +105,8 @@ class Wallberry < Sinatra::Base
     require_auth
 
     config = get_config
-    config['backgrounds']['filter'] = empty?(params[:filter])
-    settings.backgrounds[:filter] = empty?(params[:filter])
+    config['backgrounds']['filter'] = not_empty?(params[:filter])
+    settings.backgrounds[:filter] = not_empty?(params[:filter])
     update_config(config)
     redirect to('/admin'), 200
   end
@@ -138,8 +139,8 @@ class Wallberry < Sinatra::Base
     require_auth
 
     config = get_config
-    config['interior']['id'] = empty?(params[:id])
-    settings.interior[:id] = empty?(params[:id])
+    config['interior']['id'] = not_empty?(params[:id])
+    settings.interior[:id] = not_empty?(params[:id])
     update_config(config)
     redirect to('/admin'), 200
   end
