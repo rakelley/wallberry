@@ -81,7 +81,7 @@ bgModule.init = function(videoSelector, imageSelector, delay) {
 
 bgModule.updateBackground = function() {
     bgModule.videoTarget.pause();
-    utilityModule.simpleAjax('next', 'get').then(
+    utilityModule.simpleAjax('backgrounds', 'get').then(
         function(response) { bgModule.processFile(response); },
         function() { return; }
     );
