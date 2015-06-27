@@ -42,19 +42,13 @@
 }
 
 .info_bar-item-small {
+  @extend %vertically_aligned-self;
   font-size: $info_bar-font-small;
-  //no children, but need to make flex containers for vertical align hack
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .info_bar-item-large {
+  @extend %vertically_aligned-self;
   font-size: $info_bar-font-large;
-  //no children, but need to make flex containers for vertical align hack
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .info_bar-clock {
@@ -62,7 +56,7 @@
   flex: 1; 
 }
 
-.info_bar-weather {
+.info_bar-weather-wrapper {
   flex: 1;
   display: flex;
   flex-direction: column;

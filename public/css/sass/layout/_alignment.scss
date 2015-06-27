@@ -1,0 +1,6 @@
+//May have side effects if children
+%vertically_aligned-self {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
