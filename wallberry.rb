@@ -80,7 +80,11 @@ class Wallberry < Sinatra::Base
     end
 
     def empty?(var)
-      var.to_s == ''
+      if (var.to_s == '' || var == false)
+        return nil
+      else
+        return var
+      end
     end
   end
 
@@ -100,8 +104,8 @@ class Wallberry < Sinatra::Base
     require_auth
 
     config = get_config
-    config['backgrounds']['filter'] = empty?(params[:filter]) ? nil : params[:filter]
-    settings.backgrounds[:filter] = empty?(params[:filter]) ? nil : params[:filter]
+    config['backgrounds']['filter'] = empty?(params[:filter])
+    settings.backgrounds[:filter] = empty?(params[:filter])
     update_config(config)
     redirect to('/admin'), 200
   end
@@ -134,8 +138,8 @@ class Wallberry < Sinatra::Base
     require_auth
 
     config = get_config
-    config['interior']['id'] = empty?(params[:id]) ? nil : params[:id]
-    settings.interior[:id] = empty?(params[:id]) ? nil : params[:id]
+    config['interior']['id'] = empty?(params[:id])
+    settings.interior[:id] = empty?(params[:id])
     update_config(config)
     redirect to('/admin'), 200
   end
