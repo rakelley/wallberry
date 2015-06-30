@@ -108,7 +108,7 @@ class Wallberry < Sinatra::Base
     config['backgrounds']['filter'] = not_empty?(params[:filter])
     settings.backgrounds[:filter] = not_empty?(params[:filter])
     update_config(config)
-    redirect to('/admin'), 200
+    redirect to('/admin')
   end
 
   get '/exterior' do
@@ -125,7 +125,7 @@ class Wallberry < Sinatra::Base
     config['exterior']['units'] = params[:units]
     settings.exterior[:units] = params[:units]
     update_config(config)
-    redirect to('/admin'), 200
+    redirect to('/admin')
   end
 
   get '/interior' do
@@ -142,7 +142,7 @@ class Wallberry < Sinatra::Base
     config['interior']['id'] = not_empty?(params[:id])
     settings.interior[:id] = not_empty?(params[:id])
     update_config(config)
-    redirect to('/admin'), 200
+    redirect to('/admin')
   end
 
   get '/admin' do
@@ -162,18 +162,18 @@ class Wallberry < Sinatra::Base
     config['admin']['password'] = params[:password]
     settings.admin[:password] = params[:password]
     update_config(config)
-    redirect to('/logout'), 200
+    redirect to('/logout')
   end
 
   post '/login' do
     if (login_success?)
       set_authorized
     end
-    redirect to('/admin'), 200
+    redirect to('/admin')
   end
 
   get '/logout' do
     unset_authorized
-    redirect to('/admin'), 200
+    redirect to('/admin')
   end
 end
