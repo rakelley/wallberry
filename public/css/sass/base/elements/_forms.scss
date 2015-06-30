@@ -1,0 +1,24 @@
+form {
+  padding: 1.25em 1%;
+  border: 1px solid rgba(207, 207, 207, 1);
+}
+
+input {
+  margin: 0;
+}
+
+label {
+  margin-bottom: 1.25 / 4 * 1em;
+}
+
+legend {
+  margin-bottom: 1.25 / 2 * 1em;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  legend, label, input {
+    flex: 1;
+  }
+}

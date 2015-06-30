@@ -1,46 +1,48 @@
 %h1 Wallberry Administration
 
-
-%h2 Exterior Weather
 %form{:method => 'post', :action =>'/exterior'}
-  %label
-    City ID (get at
-    %a{:href => 'http://http://openweathermap.org/find', :target => '_blank'}
-      http://openweathermap.org/find
-    )
-    %input{:type => 'text', :name => 'city', :value => settings.exterior[:city]}
-  %label
-    Units
-    %input{:type => 'radio', :name => 'units', :value => 'imperial'}Fahrenheit
-    %input{:type => 'radio', :name => 'units', :value => 'metric'}Celcius
-  %input{:type => 'submit'}
+  %fieldset
+    %legend Exterior Weather
+    %label
+      City ID (get
+      %a{:href => 'http://http://openweathermap.org/find', :target => '_blank'}
+        here
+      )
+      %input{:type => 'text', :name => 'city', :value => settings.exterior[:city]}
+    %label
+      Units
+      %input{:type => 'radio', :name => 'units', :value => 'imperial',
+             :checked => true}
+        Fahrenheit
+      %input{:type => 'radio', :name => 'units', :value => 'metric'}Celcius
+    %input{:type => 'submit', :value => "Update Exterior Settings"}
 
-
-%h2 Interior Temperature
 %form{:method => 'post', :action =>'/interior'}
-  %label
-    Sensor Device ID (get from /sys/bus/w1/devices/)
-    %input{:type => 'text', :name => 'id', :value => settings.interior[:id]}
-  %input{:type => 'submit'}
+  %fieldset
+    %legend Interior Temperature
+    %label
+      Sensor Device ID (get from /sys/bus/w1/devices/)
+      %input{:type => 'text', :name => 'id', :value => settings.interior[:id]}
+    %input{:type => 'submit', :value => "Update Interior Settings"}
 
-
-%h2 Background Filter
 %form{:method => 'post', :action => '/backgrounds'}
-  %label
-    Only Use Backgrounds From This Sub-Directory
-    %input{:type => 'text', :name => 'filter',
-           :value => settings.backgrounds[:filter]}
-  %input{:type => 'submit'}
+  %fieldset
+    %legend Background Filter
+    %label
+      Only Use Backgrounds From This Sub-Directory
+      %input{:type => 'text', :name => 'filter',
+             :value => settings.backgrounds[:filter]}
+    %input{:type => 'submit', :value => "Update Background Settings"}
 
-
-%h2 Admin Access
 %form{:method => 'post', :action => '/admin'}
-  %label
-    Change Username
-    %input{:type => 'text', :name => 'username',
-           :value => settings.admin[:username]}
-  %label
-    Change Password
-    %input{:type => 'password', :name => 'password',
-           :value => settings.admin[:password]}
-  %input{:type => 'submit'}
+  %fieldset
+    %legend Admin Access
+    %label
+      Change Username
+      %input{:type => 'text', :name => 'username',
+             :value => settings.admin[:username]}
+    %label
+      Change Password
+      %input{:type => 'password', :name => 'password',
+             :value => settings.admin[:password]}
+    %input{:type => 'submit', :value => "Change Admin Credentials"}

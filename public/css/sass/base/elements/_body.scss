@@ -4,6 +4,15 @@
 }
 
 body {
-  background: rgba(0, 0, 0, 1);
+  background: $background_default;
   font-family: "Source Code Pro", monospace;
+  color: $font_color_primary;
+  font-size: 2vw;
+  @include media-desktop {
+    font-size: 1vw;
+  }
+}
+
+main {
+  padding: 0 1%;
 }
