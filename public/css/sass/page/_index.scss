@@ -26,12 +26,14 @@
 }
 
 
-$info_bar-height: 20vh;
-$info_bar-font-large: $info_bar-height / 2;
-$info_bar-font-small: $info_bar-font-large / 2;
+$info_bar-height: 30vh;
+$info_bar-height-desktop: 20vh;
+$info_bar-font_size: 11vw;
+$info_bar-font_size-desktop: $info_bar-height-desktop * .8;
 
 %info_bar-weather-type {
   @extend .info_bar-item-small;
+  margin-bottom: 0;
   flex: 1;
   text-align: right;
 }
@@ -41,7 +43,10 @@ $info_bar-font-small: $info_bar-font-large / 2;
   width: 100%;
   height: 100vh;
   padding-top: 100vh - $info_bar-height;
-  -webkit-text-stroke: $font_stroke_primary rgba(32, 32, 32, 1);
+  -webkit-text-stroke: 2px $font_stroke_primary;
+  @include media-desktop {
+    padding-top: 100vh - $info_bar-height-desktop;
+  }
 }
 
 .info_bar {
@@ -49,6 +54,7 @@ $info_bar-font-small: $info_bar-font-large / 2;
   flex-direction: column;
   height: $info_bar-height;
   @include media-desktop {
+    height: $info_bar-height-desktop;
     flex-direction: row;
     align-items: center;
   }
@@ -56,23 +62,24 @@ $info_bar-font-small: $info_bar-font-large / 2;
 
 .info_bar-item-small {
   @extend %vertically_aligned-self;
-  font-size: $info_bar-font-small * .75;
+  font-size: $info_bar-font_size / 2;
   @include media-desktop {
-    font-size: $info_bar-font-small;
+    font-size: $info_bar-font_size-desktop / 2;
   }
 }
 
 .info_bar-item-large {
   @extend %vertically_aligned-self;
-  font-size: $info_bar-font-large * .75;
+  font-size: $info_bar-font_size;
   @include media-desktop {
-    font-size: $info_bar-font-large;
+    font-size: $info_bar-font_size-desktop;
   }
 }
 
 .info_bar-clock {
   @extend .info_bar-item-large;
-  flex: 1; 
+  margin-bottom: 0;
+  flex: 1;
 }
 
 .info_bar-weather-wrapper {
