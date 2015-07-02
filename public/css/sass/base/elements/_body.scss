@@ -8,6 +8,7 @@ body {
   font-family: "Source Code Pro", monospace;
   color: $font_color_primary;
   font-size: 2vw;
+  line-height: 1em;
   @include media-desktop {
     font-size: 1vw;
   }

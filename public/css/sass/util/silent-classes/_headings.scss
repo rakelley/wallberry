@@ -1,0 +1,42 @@
+%heading {
+  color: $font_color_secondary;
+  line-height: 1.1em;
+  margin-bottom: $spacer / 4;
+
+  a, a:visited {
+    color: $font_color_secondary;
+  }
+}
+
+%heading-one {
+  @extend %heading;
+  margin-bottom: $spacer / 2;
+  font-size: 2.25em;
+}
+
+%heading-two {
+  @extend %heading;
+  margin-bottom: $spacer / 2;
+  font-size: 1.875em;
+}
+
+%heading-three {
+  @extend %heading;
+  margin-bottom: $spacer / 2;
+  font-size: 1.5em;
+}
+
+%heading-four {
+  @extend %heading;
+  font-size: 1.25em;
+}
+
+%heading-five {
+  @extend %heading;
+  font-size: 1.1em;
+}
+
+%heading-six {
+  @extend %heading;
+  font-size: 1em;
+}

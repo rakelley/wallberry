@@ -1,0 +1,10 @@
+h1 { @extend %heading-one; }
+h2 { @extend %heading-two; }
+h3 { @extend %heading-three; }
+h4 { @extend %heading-four; }
+h5 { @extend %heading-five; }
+h6 { @extend %heading-six; }
+
+p {
+    margin-bottom: $spacer;
+}

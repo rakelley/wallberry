@@ -1,6 +1,7 @@
 form {
-  padding: 1.25em 1%;
-  border: 1px solid rgba(207, 207, 207, 1);
+  padding: $spacer 1%;
+  border: 1px solid $font_color_primary;
+  margin-bottom: $spacer;
 }
 
 input {
@@ -8,11 +9,11 @@ input {
 }
 
 label {
-  margin-bottom: 1.25 / 4 * 1em;
+  margin-bottom: $spacer / 4;
 }
 
 legend {
-  margin-bottom: 1.25 / 2 * 1em;
+  @extend %heading-four;
 }
 
 fieldset {
