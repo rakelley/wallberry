@@ -186,6 +186,8 @@ intModule.init = function(selector, delay) {
     window.setInterval(intModule.updateWeather, delay * 1000);
 };
 
+intModule.active = false;
+
 intModule.updateTemperature = function() {
     utilityModule.simpleAjax('interior', 'get').then(
         function(response) { intModule.processTemp(response); },
@@ -197,22 +199,30 @@ intModule.processTemp = function(responseObject) {
     if (!responseObject || typeof responseObject.temp == undefined ||
         !responseObject.temp
     ) {
-        extModule.makeLarge();
+        intModule.active = false;
         utilityModule.hide(intModule.target);
     } else {
         var temp = Math.round(responseObject.temp);
         intModule.target.innerHTML = temp;
-        extModule.makeSmall();
         utilityModule.show(intModule.target);
+        intModule.active = true;
     }
 };
 
 
 module.init = function() {
     timeModule.init();
+
     bgModule.init();
+
     extModule.init();
+
     intModule.init();
+    if (intModule.active) {
+        extModule.makeSmall();
+    } else {
+        extModule.makeLarge();
+    }
 };
 
 module.init();
