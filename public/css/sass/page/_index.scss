@@ -10,6 +10,7 @@
   transform: translateX(-50%) translateY(-50%);
   text-align: center;
 }
+
 %bg-element {
   width: auto;
   height: 100vh;
@@ -24,6 +25,16 @@
   @extend %bg-element;
 }
 
+
+$info_bar-height: 20vh;
+$info_bar-font-large: $info_bar-height / 2;
+$info_bar-font-small: $info_bar-font-large / 2;
+
+%info_bar-weather-type {
+  @extend .info_bar-item-small;
+  flex: 1;
+  text-align: right;
+}
 
 .info_bar-wrapper {
   z-index: 1;
@@ -69,12 +80,6 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-}
-
-%info_bar-weather-type {
-  @extend .info_bar-item-small;
-  flex: 1;
-  text-align: right;
 }
 
 .info_bar-w_interior {
