@@ -49,7 +49,7 @@ class Wallberry < Sinatra::Base
     end
 
     def authorized?
-      return (session[:authed])
+      (session[:authed])
     end
 
     def set_authorized
@@ -60,14 +60,19 @@ class Wallberry < Sinatra::Base
       session[:authed] = false
     end
 
+    def admin_disabled?
+      (false == settings.admin[:permitted])
+    end
+
     def login_success?
-      return (params[:username] == settings.admin[:username] &&
-              params[:password] == settings.admin[:password])
+      (!admin_disabled? &&
+      params[:username] == settings.admin[:username] &&
+      params[:password] == settings.admin[:password])
     end
 
     def require_auth
-      if (!authorized?)
-        redirect to('/admin'), 401
+      if (admin_disabled? || !authorized?)
+        redirect '/admin', 401
       end
     end
 
@@ -79,7 +84,7 @@ class Wallberry < Sinatra::Base
       File.write(@@configuration_file, config.to_yaml)
     end
 
-    #converts variable to nil if empty/false/nil but preserves 0
+    #converts value to nil if empty/false/nil but preserves 0
     def not_empty?(var)
       if (var.to_s == '' || var == false)
         return nil
@@ -148,6 +153,8 @@ class Wallberry < Sinatra::Base
   get '/admin' do
     if (authorized?)
       haml :admin
+    elsif (admin_disabled?)
+      markdown :noadmin
     else
       haml :login
     end

@@ -7,5 +7,6 @@ backgrounds:
 interior:
   id: 
 admin:
+  permitted: true
   username: admin
   password: admin
