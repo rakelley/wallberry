@@ -15,13 +15,20 @@ class Wallberry < Sinatra::Base
   config_file @@configuration_file
 
   helpers do
-    def get_file
+    def random_background
       target = File.join('public', 'backgrounds')
       if (not_empty?(settings.backgrounds[:filter]))
         target = File.join(target, settings.backgrounds[:filter])
       end
       target = File.join(target, '**', '*.*')
       Dir.glob(target).sample.gsub("public#{File::SEPARATOR}", '')
+    end
+
+    #gets list of background subdirectories, adds empty string at 0 index
+    def get_background_dirs
+      target = File.join('public', 'backgrounds', '*', '')
+      dirs = Dir.glob(target).map! { |dir| dir.split(File::SEPARATOR).last }
+      dirs.unshift('')
     end
 
     def get_exterior
@@ -94,25 +101,57 @@ class Wallberry < Sinatra::Base
     end
   end
 
+  def plaintext(var)
+    var.gsub(/[^0-9A-Za-z]/, '_')
+  end
+
 
   get '/' do
     haml :index
   end
 
-  get '/backgrounds' do
-    file = get_file
+  get '/random' do
+    file = random_background
 
     content_type :json
     { 'file' => file }.to_json
   end
 
-  post '/backgrounds' do
+  put '/backgrounds/:dir' do
+    require_auth
+
+    dir = File.join('public', 'backgrounds', plaintext(params[:dir]))
+    if (!Dir.exist?(dir))
+      Dir.mkdir(dir)
+    end
+
+    content_type :json
+    true.to_json
+  end
+
+  delete '/backgrounds/:dir' do
+    require_auth
+
+    dir = File.join('public', 'backgrounds', plaintext(params[:dir]))
+    if (Dir.exist?(dir))
+      Dir.glob(File.join(dir, '*')).each do |file|
+        File.delete(file)
+      end
+      Dir.rmdir(dir)
+    end
+
+    content_type :json
+    true.to_json
+  end
+
+  post '/backgrounds/filter' do
     require_auth
 
     config = get_config
     config['backgrounds']['filter'] = not_empty?(params[:filter])
     settings.backgrounds[:filter] = not_empty?(params[:filter])
     update_config(config)
+
     redirect to('/admin')
   end
 
@@ -130,6 +169,7 @@ class Wallberry < Sinatra::Base
     config['exterior']['units'] = params[:units]
     settings.exterior[:units] = params[:units]
     update_config(config)
+
     redirect to('/admin')
   end
 
@@ -147,11 +187,13 @@ class Wallberry < Sinatra::Base
     config['interior']['id'] = not_empty?(params[:id])
     settings.interior[:id] = not_empty?(params[:id])
     update_config(config)
+
     redirect to('/admin')
   end
 
   get '/admin' do
     if (authorized?)
+      @directories = get_background_dirs
       haml :admin
     elsif (admin_disabled?)
       markdown :noadmin
@@ -169,6 +211,7 @@ class Wallberry < Sinatra::Base
     config['admin']['password'] = params[:password]
     settings.admin[:password] = params[:password]
     update_config(config)
+
     redirect to('/logout')
   end
 
@@ -176,11 +219,13 @@ class Wallberry < Sinatra::Base
     if (login_success?)
       set_authorized
     end
+
     redirect to('/admin')
   end
 
   get '/logout' do
     unset_authorized
+
     redirect to('/admin')
   end
 end

@@ -15,7 +15,7 @@ backgrounds.init = function(videoSelector, imageSelector, delay) {
 
 backgrounds.updateBackground = function() {
     backgrounds.videoTarget.pause();
-    utility.simpleAjax('backgrounds', 'get').then(
+    utility.simpleAjax('random', 'get').then(
         function(response) { backgrounds.processFile(response); },
         function() { return; }
     );
