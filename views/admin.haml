@@ -41,7 +41,7 @@
         #{name}
     %input{:type => 'submit', :value => "Update Background Filter"}
 
-%form{:method => 'put', :class => 'js-form_adddir'}
+%form{:method => 'put', "data-form_adddir" => true}
   %fieldset
     %legend Create A New Background Subdirectory
     %label
@@ -49,7 +49,7 @@
              "data-form_adddir-target" => true}
     %input{:type => 'submit', :value => "Create Directory"}
 
-%form{:method => 'delete', :class => 'js-form_deldir'}
+%form{:method => 'delete', "data-form_deldir" => true}
   %fieldset
     %legend Delete A New Background Subdirectory And Contents
     %label
