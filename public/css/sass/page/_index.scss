@@ -29,7 +29,7 @@
 $info_bar-height: 30vh;
 $info_bar-height-desktop: 20vh;
 $info_bar-font_size: 11vw;
-$info_bar-font_size-desktop: $info_bar-height-desktop * .8;
+$info_bar-font_size-desktop: 6vw;
 
 %info_bar-weather-type {
   @extend .info_bar-item-small;
