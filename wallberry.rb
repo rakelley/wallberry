@@ -99,10 +99,10 @@ class Wallberry < Sinatra::Base
         return var
       end
     end
-  end
 
-  def plaintext(var)
-    var.gsub(/[^0-9A-Za-z]/, '_')
+    def plaintext(var)
+      var.gsub(/[^0-9A-Za-z]/, '_')
+    end
   end
 
 
