@@ -8,7 +8,7 @@ module Sinatra
     module Helpers
       def random_background
         target = File.join('public', 'backgrounds')
-        if (not_empty?(settings.backgrounds[:filter]))
+        if (empty_to_nil(settings.backgrounds[:filter]))
           target = File.join(target, settings.backgrounds[:filter])
         end
         target = File.join(target, '**', '*.*')
@@ -36,27 +36,14 @@ module Sinatra
       end
 
       def get_interior
-        if (not_empty?(settings.interior[:id]))
+        if (empty_to_nil(settings.interior[:id]))
           path = File.join('', 'sys', 'bus', 'w1', 'devices',
                            settings.interior[:id], 'w1_slave')
           temp = File.read(path).split('t=').last
-          return temp.to_f / 1000
+          temp.to_f / 1000
         else
-          return nil
+          nil
         end
-      end
-
-      #converts value to nil if empty/false/nil but preserves 0
-      def not_empty?(var)
-        if (var.to_s == '' || var == false)
-          return nil
-        else
-          return var
-        end
-      end
-
-      def plaintext(var)
-        var.gsub(/[^0-9A-Za-z]/, '_')
       end
     end
 

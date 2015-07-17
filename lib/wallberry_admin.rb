@@ -70,8 +70,8 @@ module Sinatra
         require_auth
 
         config = get_config
-        config['backgrounds']['filter'] = not_empty?(params[:filter])
-        settings.backgrounds[:filter] = not_empty?(params[:filter])
+        config['backgrounds']['filter'] = empty_to_nil(params[:filter])
+        settings.backgrounds[:filter] = empty_to_nil(params[:filter])
         update_config(config)
 
         redirect to('/admin')
@@ -94,8 +94,8 @@ module Sinatra
         require_auth
 
         config = get_config
-        config['interior']['id'] = not_empty?(params[:id])
-        settings.interior[:id] = not_empty?(params[:id])
+        config['interior']['id'] = empty_to_nil(params[:id])
+        settings.interior[:id] = empty_to_nil(params[:id])
         update_config(config)
 
         redirect to('/admin')

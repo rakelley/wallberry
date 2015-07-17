@@ -1,4 +1,3 @@
-# wallberry.rb
 require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:default)
@@ -25,6 +24,19 @@ class Wallberry < Sinatra::Base
 
     def update_config(config)
       File.write(@@configuration_file, config.to_yaml)
+    end
+
+    #converts value to nil if empty/false/nil but preserves 0
+    def empty_to_nil(var)
+      if (var.to_s == '' || var == false)
+        nil
+      else
+        var
+      end
+    end
+
+    def plaintext(var)
+      var.gsub(/[^0-9A-Za-z]/, '_')
     end
   end
 
